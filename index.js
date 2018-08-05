@@ -3,12 +3,16 @@ const BodyParser = require("body-parser");
 const Session = require("express-session");
 const App = Express();
 
-App.use(Session({ secret: "secret_seed", resave: false, saveUnitialized: false, secure: false, rolling: true}));
+const Models = require("./models");
+
+App.use(Session({ secret: "secret_seed", resave: false, saveUninitialized: false, secure: false, rolling: true}));
 App.use(BodyParser.urlencoded({ extended: true}));
 App.use(BodyParser.json());
 
 require("./routers/course-router.js")(App);
 
-App.listen(11000, () => {
-    console.log("Leaderboard LMS API active on port 11000!");
-});
+Models.sequelizeCredentials.sync({force: true}).then(() => {
+    App.listen(11000, () => {
+        console.log("Leaderboard LMS API active on port 11000")
+    });
+}).catch( e => {console.error(e); });
