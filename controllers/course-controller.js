@@ -1,4 +1,5 @@
 const Responses = require("../response/response");
+const Models = require("../models");
 
 exports.getCourse = function(req, res) {
     const course_id = parseInt(req.params.course_id, 10);
@@ -6,14 +7,17 @@ exports.getCourse = function(req, res) {
 
 };
 
-exports.add = function(req, res) {
-    var one = parseInt(req.params.numberone, 10);
-    var two = parseInt(req.params.numbertwo, 10);
-    Responses.success(res, "Numbers added", one + two);
-};
+exports.insertCourse = function(req, res) {
+    const name = req.body.name;
+    const description = req.body.description;
+    const coordinator = req.body.coordinator;
+    const pictureLink = req.body.pictureLink;
+    const allowInvitations = req.body.allowInvitations;
 
-exports.subtract = function(req, res) {
-    var one = parseInt(req.params.numberone, 10);
-    var two = parseInt(req.params.numbertwo, 10);
-    Responses.success(res, "Numbers subtracted", one - two);
-};
+    Models.Courses.insertCourse(name, description, coordinator, pictureLink, allowInvitations).then(function(course) {
+        Responses.success(res, "Course created!", course);
+        console.log("kitty");
+    });
+
+    console.log("asdf");
+}
