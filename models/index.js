@@ -25,7 +25,12 @@ fs.readdirSync(__dirname).filter(function(file) {
 db.sequelizeCredentials = sequelizeCredentials;
 db.Sequelize = Sequelize;
 
+/* Registering tables to the database schema so it can create the tables according to the models */
 db.Users = require("./users")(sequelizeCredentials, Sequelize);
 db.Courses = require("./courses")(sequelizeCredentials, Sequelize);
+db.Roles = require("./roles")(sequelizeCredentials, Sequelize);
+
+/* Creating relationships between tables */
+
 
 module.exports = db;

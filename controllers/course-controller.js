@@ -16,8 +16,5 @@ exports.insertCourse = function(req, res) {
 
     Models.Courses.insertCourse(name, description, coordinator, pictureLink, allowInvitations).then(function(course) {
         Responses.success(res, "Course created!", course);
-        console.log("kitty");
     });
-
-    console.log("asdf");
 }
